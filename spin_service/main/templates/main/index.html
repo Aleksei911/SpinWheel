@@ -1,0 +1,65 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Wheel of fortune</title>
+    <link rel="stylesheet" href="{% static 'main/css/wheel.css' %}"/>
+</head>
+<body>
+{% csrf_token %}
+<div class="wheel-of-fortune"></div>
+
+<div style="margin-top: 30px; position: relative; z-index: 1">
+    <button type="button" class="spin">Spin</button>
+</div>
+
+<br>
+<br>
+<br>
+
+<a href="{% url 'stat' %}" class="stat">statistics</a>
+
+<script type="module">
+    import WheelOfFortune from "{% static 'main/js/wheel-of-fortune.js' %}";
+
+    const wheelOfFortune = new WheelOfFortune(
+      document.querySelector(".wheel-of-fortune"),
+      ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "JACKPOT"]
+    );
+    const button = document.querySelector(".spin")
+    const values = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    let round = 1
+    let roundValues = values.slice(0)
+
+    button.addEventListener("click", spin);
+
+    function spin(event) {
+      if (roundValues.length > 0) {
+        const index = Math.floor(Math.random() * roundValues.length)
+        let val = roundValues[index]
+        roundValues.splice(index, 1)
+        console.log(roundValues)
+        console.log(values)
+        console.log(val)
+
+        let body = {
+          "round_number": round,
+          "value": val
+      }
+
+        wheelOfFortune.spin((val - 1), round, body);
+      } else {
+        const body = {
+          "round_number": round,
+          "value": "JACKPOT"
+      }
+        wheelOfFortune.spin(10, round, body);
+        roundValues = values.slice(0)
+        round++
+      }
+    }
+</script>
+</body>
+</html>

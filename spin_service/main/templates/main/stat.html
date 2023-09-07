@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Statistics</title>
+</head>
+<body>
+    {% csrf_token %}
+    <table>
+        <thead>
+            <tr>
+                <th>Номер раунда</th>
+                <th>Кол-во игроков</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for player in players %}
+                <tr>
+                    <td>{{ player.round_number }}</td>
+                    <td>{{ player.name }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% for player in activity %}
+        <p>{{ player }}</p>
+    {% endfor %}
+</body>
+</html>
