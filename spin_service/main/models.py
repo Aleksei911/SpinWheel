@@ -12,7 +12,7 @@ class RoundCurrentValues(models.Model):
 
 
 class Log(models.Model):
-    name = models.ForeignKey(User, on_delete=models.PROTECT, blank=True)
+    name = models.ForeignKey(User, on_delete=models.PROTECT, blank=True, related_name='player')
     round_number = models.PositiveIntegerField()
     value = models.CharField(max_length=8)
 

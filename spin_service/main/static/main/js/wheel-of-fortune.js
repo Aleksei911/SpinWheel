@@ -38,12 +38,23 @@ export default class WheelOfFortune {
   };
 
   spin = (index, round, body) => {
+    function readCookie(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(';');
+        for(var i=0;i < ca.length;i++) {
+            var c = ca[i];
+            while (c.charAt(0)==' ') c = c.substring(1,c.length);
+            if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+        }
+        return null;
+      }
+
+      let csrftoken = readCookie('csrftoken');
     fetch('http://127.0.0.1:8000/log/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Cookie': 'sessionid=gbtp56jpayq2yq5obbforpanhd78un7l',
-            'X-CSRFToken': 'SS4fsqJptmFPYezKjCcmnUvfdnUcXbuK'
+            'X-CSRFToken': csrftoken
         },
         body: JSON.stringify(body),
     })
@@ -55,8 +66,7 @@ export default class WheelOfFortune {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
-            'Cookie': 'sessionid=gbtp56jpayq2yq5obbforpanhd78un7l',
-            'X-CSRFToken': 'SS4fsqJptmFPYezKjCcmnUvfdnUcXbuK'
+            'X-CSRFToken': csrftoken
         },
         body: JSON.stringify(body),
     })
@@ -67,8 +77,7 @@ export default class WheelOfFortune {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Cookie': 'sessionid=gbtp56jpayq2yq5obbforpanhd78un7l',
-                    'X-CSRFToken': 'SS4fsqJptmFPYezKjCcmnUvfdnUcXbuK'
+                    'X-CSRFToken': csrftoken
                 },
                 body: JSON.stringify(body),
             })
